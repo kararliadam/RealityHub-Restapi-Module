@@ -1,0 +1,4246 @@
+openapi: 3.0.0
+info:
+  title: RealityHub REST API
+  description: A REST API is an architectural style for an application program interface (API) that uses HTTP requests to access and use data. That data can be used to GET, POST, PATCH, and DELETE data types, referring to the reading, updating, creating, changing, and deleting operations concerning resources.
+  version: 1.0.0
+servers:
+  - url: http://127.0.0.1
+tags:
+  - name: Engine Control
+  - name: Rundown Control
+  - name: Newsroom Control
+  - name: Graph Control
+    description: Reality Engine 5 (1.1)
+  - name: Rgraph Control
+    description: Reality Engine 4.x
+  - name: Ustate Control
+    description: Unreal Engine
+  - name: Projects Control
+  - name: Launcher Control
+  - name: Lino Rundown Control
+  - name: Batch Requests
+components:
+  schemas:
+    Graph:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+      required:
+        - id
+        - name
+    GraphLong:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        content:
+          type: string
+      required:
+        - id
+        - name
+        - content
+      example:
+        id: 1
+        name: test graph
+        content: |-
+          {
+            "id": "084fb56c-494c-4c94-81ac-f35be72b... }
+    Rgraph:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+      required:
+        - id
+        - name
+    RgraphLong:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        xmlContent:
+          type: string
+      required:
+        - id
+        - name
+        - xmlContent
+      example:
+        id: 1
+        name: test rgraph
+        xmlContent: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<ZDNodeGraph n...>"
+    Ustate:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+      required:
+        - id
+        - name
+    UstateLong:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        ustateData:
+          type: string
+      required:
+        - id
+        - name
+        - ustateData
+      example:
+        id: 1
+        name: test ustate
+        ustateData: ''
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+      required:
+        - error
+    EngineHostId:
+      type: object
+      properties:
+        engineHostId:
+          type: number
+      required:
+        - engineHostId
+      example:
+        engineHostId: 1
+    Instance:
+      type: object
+      properties:
+        id:
+          type: integer
+        projectTag:
+          type: string
+          maxLength: 32
+          nullable: true
+        streaming:
+          type: string
+          maxLength: 255
+          nullable: true
+        status:
+          type: string
+          enum:
+            - Idle
+            - Caching
+            - Loading
+            - Loaded
+            - Error
+            - Checking
+            - Cooking
+          description: >-
+            Enum: ['Idle', 'Caching', 'Loading', 'Loaded', 'Error', 'Checking',
+            'Cooking']
+        pid:
+          type: integer
+          nullable: true
+        engineHostId:
+          type: integer
+        engineRoleId:
+          type: integer
+          nullable: true
+        projectId:
+          type: integer
+          nullable: true
+        projectMapId:
+          type: integer
+          nullable: true
+        editorPath:
+          type: string
+        cookedProjectId:
+          type: integer
+          nullable: true
+        cookedMapId:
+          type: integer
+          nullable: true
+        cookedId:
+          type: integer
+          nullable: true
+        engineType:
+          type: string
+          enum:
+            - RE
+            - RE5
+            - UE
+          description: 'Enum: [''RE'', ''RE5'', ''UE'']'
+        engineVersion:
+          type: string
+        statusDescription:
+          type: string
+          nullable: true
+      required:
+        - id
+        - projectTag
+        - streaming
+        - status
+        - pid
+        - engineHostId
+        - engineRoleId
+        - projectId
+        - projectMapId
+        - editorPath
+        - cookedProjectId
+        - cookedMapId
+        - cookedId
+        - engineType
+        - engineVersion
+        - statusDescription
+    Engine:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        ip:
+          type: string
+          format: ipv4
+        role:
+          type: string
+          enum:
+            - Broadcast
+            - Preview
+          description: 'Enum: [''Broadcast'', ''Preview'']'
+        status:
+          type: string
+          enum:
+            - connected
+            - ready
+            - disconnected
+            - reconnecting
+          description: 'Enum: [''connected'', ''ready'', ''disconnected'', ''reconnecting'']'
+        cacheDir:
+          type: string
+        minimumFreeSpace:
+          type: integer
+        usedSpace:
+          type: integer
+        diskSpace:
+          type: integer
+        canCook:
+          type: boolean
+        displayName:
+          type: string
+        re_enabled:
+          type: boolean
+        port:
+          type: integer
+          format: port
+        rgraphId:
+          type: integer
+          nullable: true
+        ownerStudioId:
+          type: integer
+          nullable: true
+        ustateId:
+          type: integer
+          nullable: true
+        ue_enabled:
+          type: boolean
+        instances:
+          type: array
+          items:
+            $ref: '#/components/schemas/Instance'
+      required:
+        - id
+        - name
+        - ip
+        - role
+        - status
+        - cacheDir
+        - minimumFreeSpace
+        - usedSpace
+        - diskSpace
+        - canCook
+        - displayName
+        - re_enabled
+        - port
+        - rgraphId
+        - ownerStudioId
+        - ustateId
+        - ue_enabled
+        - instances
+    NodeShort:
+      type: object
+      properties:
+        NodePath:
+          type: string
+        NodeName:
+          type: string
+      required:
+        - NodePath
+        - NodeName
+    Property:
+      type: object
+      properties:
+        PropertyPath:
+          type: string
+        DisplayName:
+          type: string
+        Value:
+          anyOf:
+            - type: boolean
+            - type: number
+            - type: integer
+            - type: object
+            - type: array
+              items: {}
+            - type: string
+      required:
+        - PropertyPath
+        - DisplayName
+        - Value
+    PropertyUpdate:
+      type: object
+      properties:
+        Interpolation:
+          type: string
+          enum:
+            - Constant
+            - Linear
+            - EaseIn
+            - EaseOut
+            - EaseInOut
+          description: 'Enum: [''Constant'', ''Linear'', ''EaseIn'', ''EaseOut'', ''EaseInOut'']'
+          default: Constant
+        Duration:
+          type: number
+          default: 0
+          description: >-
+            The duration of the interpolation in seconds. Must be a positive
+            number.
+        Delay:
+          type: number
+          default: 0
+          description: >-
+            The delay of the interpolation in seconds. Must be a positive
+            number.
+        Value:
+          anyOf:
+            - type: boolean
+            - type: number
+            - type: integer
+            - type: object
+            - type: array
+              items: {}
+            - type: string
+      required:
+        - Value
+    FunctionShort:
+      type: object
+      properties:
+        FunctionPath:
+          type: string
+        FunctionName:
+          type: string
+      required:
+        - FunctionPath
+        - FunctionName
+    FunctionLong:
+      type: object
+      properties:
+        FunctionPath:
+          type: string
+        FunctionName:
+          type: string
+        Properties:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Property'
+      required:
+        - FunctionPath
+        - FunctionName
+        - Properties
+    FunctionTriggerRequestParameter:
+      type: object
+      properties:
+        PropertyPath:
+          type: string
+        payload:
+          type: object
+          properties:
+            value:
+              anyOf:
+                - type: boolean
+                - type: number
+                - type: integer
+                - type: object
+                - type: array
+                  items: {}
+                - type: string
+          required:
+            - value
+      required:
+        - PropertyPath
+        - payload
+    FunctionTriggerRequest:
+      type: object
+      properties:
+        Parameters:
+          type: array
+          items:
+            $ref: '#/components/schemas/FunctionTriggerRequestParameter'
+    ServerSuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+      required:
+        - success
+      example:
+        success: true
+    PlayoutRundown:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+      required:
+        - id
+        - name
+    RundownItemButton:
+      type: object
+      properties:
+        id:
+          type: string
+        key:
+          type: string
+        label:
+          type: string
+      required:
+        - id
+        - key
+        - label
+    PlayoutRundownCreateRenameRequestBody:
+      type: object
+      properties:
+        name:
+          type: string
+      required:
+        - name
+    PlayoutRundownItem:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        template:
+          type: string
+        data:
+          type: object
+          additionalProperties: true
+        buttons:
+          type: array
+          items:
+            $ref: '#/components/schemas/RundownItemButton'
+      required:
+        - id
+        - name
+        - template
+        - data
+        - buttons
+    PlayoutRundownItemCreateBody:
+      type: object
+      properties:
+        name:
+          type: string
+        template:
+          type: string
+        order:
+          type: integer
+        data:
+          type: object
+          additionalProperties: true
+      required:
+        - name
+        - template
+        - data
+    PlayoutRundownItemShort:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        template:
+          type: string
+        data:
+          type: object
+          additionalProperties: true
+      required:
+        - id
+        - name
+        - template
+        - data
+    PlayoutRundownItemUpdateBody:
+      type: object
+      properties:
+        name:
+          type: string
+        template:
+          type: string
+        order:
+          type: integer
+        data:
+          type: object
+          additionalProperties: true
+        overriddenChannels:
+          type: array
+          items:
+            type: integer
+    Template:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+      required:
+        - id
+        - name
+    MosObject:
+      type: object
+      properties:
+        objID:
+          type: string
+          format: uuid
+        objSlug:
+          type: string
+        mosAbstract:
+          type: string
+        objGroup:
+          type: string
+          maxLength: 128
+          nullable: true
+        objTB:
+          type: string
+          maxLength: 10
+          pattern: ^\d+$
+        objRev:
+          type: integer
+        objDur:
+          type: integer
+        status:
+          type: string
+          enum:
+            - NEW
+            - UPDATED
+            - MOVED
+            - BUSY
+            - DELETED
+            - NCS CTRL
+            - MANUAL CTRL
+            - READY
+            - NOT READY
+            - PLAY
+            - STOP
+          description: >-
+            Enum: ['NEW', 'UPDATED', 'MOVED', 'BUSY', 'DELETED', 'NCS CTRL',
+            'MANUAL CTRL', 'READY', 'NOT READY', 'PLAY', 'STOP']
+        objAir:
+          type: string
+          enum:
+            - READY
+            - NOT READY
+          description: 'Enum: [''READY'', ''NOT READY'']'
+        objPaths:
+          type: string
+          nullable: true
+        mosExternalMetadata:
+          type: string
+          nullable: true
+        createdBy:
+          type: string
+        created:
+          type: string
+          format: date-time
+        changedBy:
+          type: string
+        changed:
+          type: string
+          format: date-time
+        description:
+          type: string
+        objType:
+          type: string
+          enum:
+            - STILL
+            - VIDEO
+            - AUDIO
+          description: 'Enum: [''STILL'', ''VIDEO'', ''AUDIO'']'
+        template:
+          type: string
+        data:
+          type: object
+          additionalProperties: true
+        buttons:
+          type: array
+          items:
+            $ref: '#/components/schemas/RundownItemButton'
+      required:
+        - objID
+        - objSlug
+        - mosAbstract
+        - objGroup
+        - objTB
+        - objRev
+        - objDur
+        - status
+        - objAir
+        - objPaths
+        - mosExternalMetadata
+        - createdBy
+        - created
+        - changedBy
+        - changed
+        - description
+        - objType
+        - template
+        - data
+        - buttons
+    NewsroomRundownItem:
+      type: object
+      properties:
+        storyID:
+          type: string
+        itemID:
+          type: string
+        storySlug:
+          type: string
+        itemSlug:
+          type: string
+        mosObject:
+          $ref: '#/components/schemas/MosObject'
+      required:
+        - storyID
+        - itemID
+        - storySlug
+        - itemSlug
+        - mosObject
+    NewsroomRundownShort:
+      type: object
+      properties:
+        ncsID:
+          type: string
+        roID:
+          type: string
+        roSlug:
+          type: string
+        status:
+          type: string
+          enum:
+            - NEW
+            - UPDATED
+            - MOVED
+            - BUSY
+            - DELETED
+            - NCS CTRL
+            - MANUAL CTRL
+            - READY
+            - NOT READY
+            - PLAY
+            - STOP
+          description: >-
+            Enum: ['NEW', 'UPDATED', 'MOVED', 'BUSY', 'DELETED', 'NCS CTRL',
+            'MANUAL CTRL', 'READY', 'NOT READY', 'PLAY', 'STOP']
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - ncsID
+        - roID
+        - roSlug
+        - status
+        - createdAt
+        - updatedAt
+    NewsroomRundownLong:
+      type: object
+      properties:
+        ncsID:
+          type: string
+        roID:
+          type: string
+        roSlug:
+          type: string
+        roChannel:
+          type: string
+          maxLength: 128
+        roEdStart:
+          type: string
+          format: date-time
+        roEdDur:
+          type: string
+          format: partial-time
+        roTrigger:
+          type: string
+          maxLength: 128
+          nullable: true
+        macroIn:
+          type: string
+          maxLength: 128
+          nullable: true
+        macroOut:
+          type: string
+          maxLength: 128
+          nullable: true
+        mosExternalMetadata:
+          type: string
+        readyToAir:
+          type: boolean
+        status:
+          type: string
+          enum:
+            - NEW
+            - UPDATED
+            - MOVED
+            - BUSY
+            - DELETED
+            - NCS CTRL
+            - MANUAL CTRL
+            - READY
+            - NOT READY
+            - PLAY
+            - STOP
+          description: >-
+            Enum: ['NEW', 'UPDATED', 'MOVED', 'BUSY', 'DELETED', 'NCS CTRL',
+            'MANUAL CTRL', 'READY', 'NOT READY', 'PLAY', 'STOP']
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/NewsroomRundownItem'
+      required:
+        - ncsID
+        - roID
+        - roSlug
+        - roChannel
+        - roEdStart
+        - roEdDur
+        - roTrigger
+        - macroIn
+        - macroOut
+        - mosExternalMetadata
+        - readyToAir
+        - status
+        - createdAt
+        - updatedAt
+        - items
+    NewsroomMosObjectUpdateBody:
+      type: object
+      properties:
+        description:
+          type: string
+        data:
+          type: object
+          additionalProperties: true
+      required:
+        - data
+    NewsroomMosObjectUpdateResult:
+      type: object
+      properties:
+        objID:
+          type: string
+          format: uuid
+        objSlug:
+          type: string
+        mosAbstract:
+          type: string
+        objGroup:
+          type: string
+          maxLength: 128
+          nullable: true
+        objTB:
+          type: string
+          maxLength: 10
+          pattern: ^\d+$
+        objRev:
+          type: integer
+        objDur:
+          type: integer
+        status:
+          type: string
+          enum:
+            - NEW
+            - UPDATED
+            - MOVED
+            - BUSY
+            - DELETED
+            - NCS CTRL
+            - MANUAL CTRL
+            - READY
+            - NOT READY
+            - PLAY
+            - STOP
+          description: >-
+            Enum: ['NEW', 'UPDATED', 'MOVED', 'BUSY', 'DELETED', 'NCS CTRL',
+            'MANUAL CTRL', 'READY', 'NOT READY', 'PLAY', 'STOP']
+        objAir:
+          type: string
+          enum:
+            - READY
+            - NOT READY
+          description: 'Enum: [''READY'', ''NOT READY'']'
+        objPaths:
+          type: string
+          nullable: true
+        mosExternalMetadata:
+          type: string
+          nullable: true
+        createdBy:
+          type: string
+        created:
+          type: string
+          format: date-time
+        changedBy:
+          type: string
+        changed:
+          type: string
+          format: date-time
+        description:
+          type: string
+        objType:
+          type: string
+          enum:
+            - STILL
+            - VIDEO
+            - AUDIO
+          description: 'Enum: [''STILL'', ''VIDEO'', ''AUDIO'']'
+        template:
+          type: string
+        data:
+          type: object
+          additionalProperties: true
+      required:
+        - objID
+        - objSlug
+        - mosAbstract
+        - objGroup
+        - objTB
+        - objRev
+        - objDur
+        - status
+        - objAir
+        - objPaths
+        - mosExternalMetadata
+        - createdBy
+        - created
+        - changedBy
+        - changed
+        - description
+        - objType
+        - template
+        - data
+    Project:
+      type: object
+      properties:
+        projectId:
+          type: integer
+          format: int32
+          example: 10
+        name:
+          type: string
+          example: RE Test
+        version:
+          type: string
+          maxLength: 20
+          example: '4.27'
+        sharedFolderName:
+          type: string
+          maxLength: 100
+          example: projects
+        maps:
+          type: array
+          items:
+            type: string
+          example:
+            - Main
+            - Advanced_Lighting
+            - Minimal_Default
+        createdAt:
+          type: integer
+          example: 76213541238
+        updatedAt:
+          type: integer
+          example: 76213541238
+      required:
+        - projectId
+        - version
+        - sharedFolderName
+        - maps
+        - createdAt
+        - updatedAt
+    LaunchConfig:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 44
+        name:
+          type: string
+          example: Studio 44
+        renderers:
+          type: array
+          items:
+            type: integer
+          example:
+            - 2
+            - 4
+    LaunchConfigCreateRequestBody:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Launch config 1
+        renderers:
+          type: array
+          items:
+            type: integer
+          example:
+            - 2
+            - 4
+      required:
+        - name
+        - renderers
+    LaunchConfigCreateResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 15
+        renderers:
+          type: array
+          items:
+            type: integer
+          example:
+            - 11
+            - 12
+      required:
+        - id
+        - renderers
+    RedenererDetails:
+      type: object
+      properties:
+        launchConfigId:
+          type: integer
+          example: 11
+        engineId:
+          type: integer
+          nullable: true
+          example: 1
+        projectId:
+          type: integer
+          nullable: true
+          example: 4
+        projectMapId:
+          type: integer
+          nullable: true
+          example: 14
+        engineType:
+          type: string
+          enum:
+            - RE
+            - RE5
+            - UE
+          description: 'Enum: [''RE'', ''RE5'', ''UE'']'
+          example: RE5
+        stateId:
+          type: integer
+          description: >-
+            For RE it will be assumed as rgraph id, for ue ustate and for re5
+            graph id
+          example: 1
+    LinoRundownEngineDevice:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        profileId:
+          type: integer
+          example: 2
+    LinoRundownEngineRenderer:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        pollLevelsEnabled:
+          type: boolean
+          example: true
+        rundownServerPort:
+          type: integer
+          example: 30030
+        remoteControlPort:
+          type: integer
+          example: 30020
+        devices:
+          type: array
+          items:
+            $ref: '#/components/schemas/LinoRundownEngineDevice'
+    LinoRundownEngine:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Engine 1
+        started:
+          type: boolean
+          example: true
+        loadedRundownInfo:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                example: 102
+        engines:
+          type: array
+          items:
+            $ref: '#/components/schemas/LinoRundownEngineRenderer'
+      required:
+        - id
+        - name
+    LinoRundownItem:
+      type: object
+      properties:
+        name:
+          type: string
+        itemNo:
+          type: integer
+        template:
+          type: string
+        templateId:
+          type: integer
+        data:
+          type: object
+        buttons:
+          type: object
+      required:
+        - name
+        - templateId
+        - data
+    LinoRundownItemCreateBody:
+      type: object
+      properties:
+        name:
+          type: string
+        templateId:
+          type: integer
+        insertAfter:
+          type: integer
+        data:
+          type: object
+      required:
+        - name
+        - templateId
+        - data
+    LinoTemplate:
+      type: object
+      properties:
+        templateId:
+          type: integer
+        name:
+          type: string
+        data:
+          type: object
+          example:
+            StateName 1: STATE NAME
+            StateVotesPercentage 2: 100
+            GFX01_Name 3: NAME
+            GFX01_VotesCount 4: 000,000
+      required:
+        - templateId
+        - name
+        - data
+    BatchRequest:
+      type: object
+      required:
+        - id
+        - url
+        - verb
+      properties:
+        id:
+          oneOf:
+            - type: integer
+            - type: string
+        url:
+          type: string
+        verb:
+          type: string
+          enum:
+            - GET
+            - PATCH
+            - PUT
+            - POST
+        body:
+          type: object
+          description: POST request body payload
+          additionalProperties: true
+      example:
+        id: 1
+        url: /playout/rundowns
+        verb: GET
+    BatchResponse:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          oneOf:
+            - type: integer
+            - type: string
+        responseCode:
+          type: integer
+        responseMessage:
+          type: string
+        responseBody:
+          type: object
+          additionalProperties: true
+      example:
+        id: 1
+        responseCode: 200
+        responseBody:
+          - id: 20
+            name: rt template
+            template: rt Position
+            data:
+              mzproperty1:
+                x: 0
+                'y': 0
+                z: 0
+paths:
+  /api/rest/v1/engines:
+    get:
+      tags:
+        - Engine Control
+      summary: Get Engines
+      description: |
+        Retrieves a list of all engines connected to the Reality Hub system, including detailed information for each engine. The response contains engine properties such as id, name, IP address, role, status, disk usage, and a list of associated instances. This endpoint is useful for monitoring and managing the available engines and their current states within the system.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Engine'
+            example:
+              - id: 1
+                name: ZDHQ-MBAK2
+                ip: 127.0.0.1
+                role: Broadcast
+                status: connected
+                cacheDir: c:\cache
+                minimumFreeSpace: 209715200
+                usedSpace: 245037633536
+                diskSpace: 255382777856
+                canCook: false
+                displayName: Local Engine
+                re_enabled: true
+                port: 6666
+                rgraphId: null
+                ownerStudioId: null
+                ustateId: null
+                ue_enabled: true
+                instances:
+                  - id: 1
+                    projectTag: null
+                    streaming: null
+                    status: Idle
+                    pid: null
+                    engineHostId: 1
+                    engineRoleId: null
+                    projectId: null
+                    projectMapId: null
+                    editorPath: >-
+                      C:\Program Files\Zero
+                      Density\Reality\4.26\Engine\Binaries\Win64\UE4Editor.exe
+                    cookedProjectId: null
+                    cookedMapId: null
+                    cookedId: null
+                    engineType: RE
+                    engineVersion: '4.26'
+                    statusDescription: null
+                  - id: 2
+                    name: ZDHQ-HUB
+                    ip: 172.16.0.59
+                    role: Broadcast
+                    status: connected
+                    cacheDir: c:\cache
+                    minimumFreeSpace: 209715200
+                    usedSpace: 198288896000
+                    diskSpace: 239379410944
+                    canCook: true
+                    displayName: ZDHQ-HUB
+                    re_enabled: true
+                    port: 6666
+                    rgraphId: 13
+                    ownerStudioId: 1
+                    ustateId: null
+                    ue_enabled: true
+                    instances:
+                      - id: 2
+                        projectTag: null
+                        streaming: null
+                        status: Idle
+                        pid: null
+                        engineHostId: 2
+                        engineRoleId: 1
+                        projectId: null
+                        projectMapId: null
+                        editorPath: >-
+                          C:\Program Files\Zero
+                          Density\Reality\4.26\Engine\Binaries\Win64\UE4Editor.exe
+                        cookedProjectId: null
+                        cookedMapId: null
+                        cookedId: null
+                        engineType: RE
+                        engineVersion: '4.26'
+                        statusDescription: null
+                      - id: 4
+                        projectTag: null
+                        streaming: null
+                        status: Idle
+                        pid: null
+                        engineHostId: 2
+                        engineRoleId: 1
+                        projectId: null
+                        projectMapId: null
+                        editorPath: >-
+                          C:\Program Files\Zero
+                          Density\Reality\4.27\Engine\Binaries\Win64\UE4Editor.exe
+                        cookedProjectId: null
+                        cookedMapId: null
+                        cookedId: null
+                        engineType: RE
+                        engineVersion: '4.27'
+                        statusDescription: null
+                      - id: 3
+                        projectTag: null
+                        streaming: null
+                        status: Loaded
+                        pid: '4488'
+                        engineHostId: 2
+                        engineRoleId: 1
+                        projectId: 41
+                        projectMapId: 194
+                        editorPath: >-
+                          C:\Program Files\Zero
+                          Density\Reality\4.25\Engine\Binaries\Win64\UE4Editor.exe
+                        cookedProjectId: null
+                        cookedMapId: null
+                        cookedId: null
+                        engineType: RE
+                        engineVersion: '4.25'
+                        statusDescription: null
+                    engineType: RE
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+  /api/rest/v1/engines/{engineId}:
+    get:
+      tags:
+        - Engine Control
+      summary: Get a Single Engine
+      description: | 
+        Retrieves detailed information about a specific engine identified by its ID. The response includes engine metadata such as name, IP address, status, role, disk usage, engine capabilities, and a list of associated instances with their current state and configuration. Useful for monitoring engine health and status within the RealityHub environment.
+      parameters:
+        - name: engineId
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: The ID of the engine.
+          example: '3'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Engine'
+                example:
+                  id: 2
+                  name: ZDHQ-HUB
+                  ip: 172.16.0.59
+                  role: Broadcast
+                  status: connected
+                  cacheDir: c:\cache
+                  minimumFreeSpace: 209715200
+                  usedSpace: 198289190912
+                  diskSpace: 239379410944
+                  canCook: true
+                  displayName: ZDHQ-HUB
+                  re_enabled: true
+                  port: 6666
+                  rgraphId: 13
+                  ownerStudioId: 1
+                  ustateId: null
+                  ue_enabled: true
+                  instances:
+                    - id: 2
+                      projectTag: null
+                      streaming: null
+                      status: Idle
+                      pid: null
+                      engineHostId: 2
+                      engineRoleId: 1
+                      projectId: null
+                      projectMapId: null
+                      editorPath: >-
+                        C:\Program Files\Zero
+                        Density\Reality\4.26\Engine\Binaries\Win64\UE4Editor.exe
+                      cookedProjectId: null
+                      cookedMapId: null
+                      cookedId: null
+                      engineType: RE
+                      engineVersion: '4.26'
+                      statusDescription: null
+                    - id: 4
+                      projectTag: null
+                      streaming: null
+                      status: Idle
+                      pid: null
+                      engineHostId: 2
+                      engineRoleId: 1
+                      projectId: null
+                      projectMapId: null
+                      editorPath: >-
+                        C:\Program Files\Zero
+                        Density\Reality\4.27\Engine\Binaries\Win64\UE4Editor.exe
+                      cookedProjectId: null
+                      cookedMapId: null
+                      cookedId: null
+                      engineType: RE
+                      engineVersion: '4.27'
+                      statusDescription: null
+                    - id: 3
+                      projectTag: null
+                      streaming: null
+                      status: Loaded
+                      pid: '4488'
+                      engineHostId: 2
+                      engineRoleId: 1
+                      projectId: 41
+                      projectMapId: 194
+                      editorPath: >-
+                        C:\Program Files\Zero
+                        Density\Reality\4.25\Engine\Binaries\Win64\UE4Editor.exe
+                      cookedProjectId: null
+                      cookedMapId: null
+                      cookedId: null
+                      engineType: RE
+                      engineVersion: '4.25'
+                      statusDescription: null
+                  engineType: RE
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+  /api/rest/v1/engines/{engineId}/nodes:
+    get:
+      tags:
+        - Engine Control
+      summary: Get Nodes of an Engine
+      description: |
+        Retrieves a list of nodes currently available on the specified engine. Each node includes basic information such as its unique path and name. This endpoint is useful for inspecting the active node graph structure running on an engine instance.
+      parameters:
+        - name: engineId
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: The ID of the engine.
+          example: '3'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NodeShort'
+                example:
+                  - NodePath: f0f8ae55-fe2e-482b-ac69-1febb1b52a0c
+                    NodeName: U32ToString
+                  - NodePath: 15f34237-9fa1-405c-89e6-4eacade51456
+                    NodeName: Cyclorama
+                  - NodePath: 0168d90c-571b-471e-8519-3d6eed8bbe9c
+                    NodeName: AJAOut
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+  /api/rest/v1/engines/{engineId}/nodes/{nodePath}:
+    get:
+      tags:
+        - Engine Control
+      summary: Get a Single Node
+      description: |
+        Retrieves detailed information about a specific node identified by its path on the specified engine. The response includes node metadata such as its unique path, name, and a list of associated properties with their current values. This endpoint is useful for inspecting the properties of a specific node within the engine's node graph.
+      parameters:
+        - name: engineId
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: The ID of the engine.
+          example: '3'
+        - name: nodePath
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The path of the node. (The ID of the node if the engine is RE5)
+          example: 15f34237-9fa1-405c-89e6-4eacade51456
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NodeShort'
+                example:
+                  NodePath: 15f34237-9fa1-405c-89e6-4eacade51456
+                  NodeName: Cyclorama
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+  /api/rest/v1/engines/{engineId}/nodes/{nodePath}/properties:
+    get:
+      tags:
+        - Engine Control
+      summary: Get Properties of a Node
+      description: |
+        Retrieves a list of properties associated with a specific node identified by its path on the specified engine. Each property includes basic information such as its unique path, display name, and current value. This endpoint is useful for inspecting the properties of a specific node within the engine's node graph.
+      parameters:
+        - name: engineId
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: The ID of the engine.
+          example: '3'
+        - name: nodePath
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The path of the node. (The ID of the node if the engine is RE5)
+          example: 15f34237-9fa1-405c-89e6-4eacade51456
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Property'
+                example:
+                  - PropertyPath: 5ec1e795-f3c2-4834-b84b-d97cdd7f3464
+                    DisplayName: CycloramaColor
+                    Value:
+                      x: 0.5
+                      'y': 1
+                      z: 0
+                      w: 1
+                  - PropertyPath: 2a14a32e-e296-4ec7-b065-c71c33eee54b
+                    DisplayName: MaskColor
+                    Value:
+                      x: 1
+                      'y': 0
+                      z: 0
+                      w: 1
+                  - PropertyPath: 5715a460-8aca-4562-a92f-2713b004c53e
+                    DisplayName: Wireframe
+                    Value: false
+                  - PropertyPath: 898ee690-9505-443d-ae51-c85a8f85d3bd
+                    DisplayName: HasLeftWing
+                    Value: true
+                  - PropertyPath: 73336226-2538-4a25-8d8e-bb7457a6ace9
+                    DisplayName: LeftWingAngle
+                    Value: 90
+                  - PropertyPath: 13fd35a4-653c-47af-b1ef-53534cea542a
+                    DisplayName: LeftWingLength
+                    Value: 200
+                  - PropertyPath: 68b96c3a-e961-4d97-b245-c8a36f9a9733
+                    DisplayName: HasRightWing
+                    Value: true
+                  - PropertyPath: 3a8aff48-1228-4ab7-a88d-2d95eeec11c6
+                    DisplayName: RightWingAngle
+                    Value: 90
+                  - PropertyPath: e9db7fee-8ca4-4b57-98d3-3aca16a69ce2
+                    DisplayName: RightWingLength
+                    Value: 200
+                  - PropertyPath: 6df387ac-ae0f-490b-b6c0-c4300389740f
+                    DisplayName: Width
+                    Value: 200
+                  - PropertyPath: fe966973-5463-4711-98f1-308b161da3e6
+                    DisplayName: Height
+                    Value: 200
+                  - PropertyPath: e49f01d1-4009-4f3a-ac07-61cb298cc96d
+                    DisplayName: EdgeRoundness
+                    Value: 30
+                  - PropertyPath: eb4c59c0-1ba5-46b8-865c-547ea006d69f
+                    DisplayName: SharpEdges
+                    Value: false
+                  - PropertyPath: 4c55bc12-45e2-43bc-9263-f93d612adab1
+                    DisplayName: BottomSmoothness
+                    Value: 0
+                  - PropertyPath: ea34b860-af8f-4aac-941d-c117556b548b
+                    DisplayName: LeftSmoothness
+                    Value: 0
+                  - PropertyPath: f13cf328-ce07-49d2-accf-c3db8db5a22e
+                    DisplayName: RightSmoothness
+                    Value: 0
+                  - PropertyPath: ddbd4537-2990-4375-aa06-f66ad00f8bab
+                    DisplayName: TopSmoothness
+                    Value: 0
+                  - PropertyPath: e954b954-2167-440d-8b3f-38ce532aab15
+                    DisplayName: BottomCrop
+                    Value: 0
+                  - PropertyPath: 8e665964-80b4-4436-9f40-ce80aed8779c
+                    DisplayName: LeftCrop
+                    Value: 0
+                  - PropertyPath: 83a2b8ef-b0c7-4771-b5de-bf69205f4b6f
+                    DisplayName: RightCrop
+                    Value: 0
+                  - PropertyPath: e553a34f-5fd9-4c37-aa5b-7713408524b5
+                    DisplayName: TopCrop
+                    Value: 0
+                  - PropertyPath: 7f975515-004f-4915-a1b3-e01e8c1cebb6
+                    DisplayName: DiagonalCrop
+                    Value: 0
+                  - PropertyPath: e4697081-ecd9-4d80-bf46-bcd64545c9ca
+                    DisplayName: DiagonalSmoothness
+                    Value: 0
+                  - PropertyPath: 7df9049b-262e-4191-b85a-161c48e0ddfa
+                    DisplayName: SmoothnessCurve
+                    Value: 1
+                  - PropertyPath: 578aa1d7-5225-4b2f-8703-99cec26c2105
+                    DisplayName: OriginPreset
+                    Value: 0
+                  - PropertyPath: a3f6bf88-782c-431f-8249-3ab03322bbff
+                    DisplayName: Position
+                    Value:
+                      x: 0
+                      'y': 0
+                      z: 0
+                  - PropertyPath: 7de78c08-1896-43f3-9168-ce2781a7a387
+                    DisplayName: Rotation
+                    Value:
+                      x: 0
+                      'y': 0
+                      z: 0
+                  - PropertyPath: fa648c93-f9f6-4010-92e6-f6f2f28a7eaa
+                    DisplayName: Track
+                    Value:
+                      location:
+                        x: 600
+                        'y': 50
+                        z: 100
+                      rotation:
+                        x: 0
+                        'y': 0
+                        z: 180
+                      fov: 74
+                      focus: 0
+                      centerShift:
+                        x: 0
+                        'y': 0
+                      zoom: 0
+                      k1k2:
+                        x: 0
+                        'y': 0
+                      renderRatio: 1
+                      distortionScale: 1
+                      sensorSize:
+                        x: 9.59
+                        'y': 5.394
+                      pixelAspectRatio: 1
+                      nodalOffset: 0
+                      focusDistance: 0
+                  - PropertyPath: 57edb85f-b65b-4a69-9e12-d9050d045538
+                    DisplayName: Render
+                    Value:
+                      handle: '2298947338016'
+                      pid: '46696'
+                      memory: '2224'
+                      offset: '5242880'
+                      type: 2
+                      size: 0
+                      width: 1920
+                      height: 1080
+                      format: 97
+                      usage: 31
+                      filtering: 0
+                      unscaled: false
+                      unmanaged: false
+                      fieldType: 3
+                  - PropertyPath: d6e3f431-c4e2-4a25-b50b-9aab4dbad877
+                    DisplayName: Mask
+                    Value:
+                      handle: '2298947338656'
+                      pid: '46696'
+                      memory: '2224'
+                      offset: '22937600'
+                      type: 2
+                      size: 0
+                      width: 1920
+                      height: 1080
+                      format: 97
+                      usage: 31
+                      filtering: 0
+                      unscaled: false
+                      unmanaged: false
+                      fieldType: 3
+                  - PropertyPath: c290097d-5f1c-443c-8bcf-9d827e6b003d
+                    DisplayName: Video
+                    Value:
+                      handle: '2298945412432'
+                      pid: '46696'
+                      memory: '2224'
+                      offset: '40632320'
+                      type: 2
+                      size: 0
+                      width: 1920
+                      height: 1080
+                      format: 97
+                      usage: 6
+                      filtering: 1
+                      unscaled: false
+                      unmanaged: false
+                      fieldType: 3
+                  - PropertyPath: d57f1dc8-ad40-4f7a-9c7b-7a6fcba5fe8c
+                    DisplayName: CleanPlates
+                    Value:
+                      data: []
+                  - PropertyPath: 9f7d2705-1b74-4cc7-a864-7517a4c6cc38
+                    DisplayName: CaptureFolder
+                    Value: R:/Reality/Assets/CleanPlates/
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+  /api/rest/v1/engines/{engineId}/nodes/{nodePath}/properties/{propertyPath}:
+    get:
+      tags:
+        - Engine Control
+      summary: Get a Single Property
+      description: |
+        Retrieves detailed information about a specific property identified by its path on the specified node. The response includes property metadata such as its unique path, display name, and current value. This endpoint is useful for inspecting the value of a specific property within a node.
+      parameters:
+        - name: engineId
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: The ID of the engine.
+          example: '3'
+        - name: nodePath
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The path of the node. (The ID of the node if the engine is RE5)
+          example: 15f34237-9fa1-405c-89e6-4eacade51456
+        - name: propertyPath
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The path of the property. (The ID of the pin if the engine is RE5)
+          example: 5ec1e795-f3c2-4834-b84b-d97cdd7f3464
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Property'
+                example:
+                  PropertyPath: 5ec1e795-f3c2-4834-b84b-d97cdd7f3464
+                  DisplayName: CycloramaColor
+                  Value:
+                    x: 0.5
+                    'y': 1
+                    z: 0
+                    w: 1
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+    patch:
+      tags:
+        - Engine Control
+      summary: Update a Property's Value
+      description: |
+        Updates the value of a specific property identified by its path on the specified node. The request body should contain the new value for the property. This endpoint is useful for modifying the value of a specific property within a node.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PropertyUpdate'
+              example:
+                Value:
+                  x: 0.2
+                  'y': 0.3
+                  z: 0.4
+                  w: 0.5
+      parameters:
+        - name: engineId
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: The ID of the engine.
+          example: '3'
+        - name: nodePath
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The path of the node. (The ID of the node if the engine is RE5)
+          example: 15f34237-9fa1-405c-89e6-4eacade51456
+        - name: propertyPath
+          in: path
+          schema:
+            type: string
+          required: true
+          description: >-
+            The path of the property. (The ID of the pin if the engine is RE5)
+
+
+            Reality Engine 5 (1.1) supports partial pin update. In order to
+            perform a partial update you need to construct the property path
+            accordingly. Assume we have a mat4 pin and want to update the 'z'
+            attribute of mat4's 'w' field. Then the property path should be
+            "<property path>.w.z" The path bits should be delimited by a dot (.)
+            and should be append to the original property path (after a dot).
+          example: 5ec1e795-f3c2-4834-b84b-d97cdd7f3464
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Property'
+                example:
+                  PropertyPath: 5ec1e795-f3c2-4834-b84b-d97cdd7f3464
+                  DisplayName: CycloramaColor
+                  Value:
+                    x: 0.20000000298023224
+                    'y': 0.30000001192092896
+                    z: 0.4000000059604645
+                    w: 0.5
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+  /api/rest/v1/engines/{engineId}/nodes/{nodePath}/functions:
+    get:
+      tags:
+        - Engine Control
+      summary: Get Functions of a Node
+      description: |
+        Retrieves a list of functions currently available on the specified node. Each function includes basic information such as its unique path and name. This endpoint is useful for inspecting the functions of a specific node within the engine's node graph.
+      parameters:
+        - name: engineId
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: The ID of the engine.
+          example: '3'
+        - name: nodePath
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The path of the node. (The ID of the node if the engine is RE5)
+          example: 6c1293aa-418d-440a-a3b0-fb47c5d8090b
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FunctionShort'
+                example:
+                  - FunctionPath: d6f7914f-94d2-4a76-8874-f58399b83c8c
+                    FunctionName: Sample_Func
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+  /api/rest/v1/engines/{engineId}/nodes/{nodePath}/functions/{functionPath}:
+    get:
+      tags:
+        - Engine Control
+      summary: Get a Single Function
+      description: |
+        Retrieves detailed information about a specific function identified by its path on the specified node. The response includes function metadata such as its unique path, name, and a list of associated properties with their current values. This endpoint is useful for inspecting the properties of a specific function within a node.
+      parameters:
+        - name: engineId
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: The ID of the engine.
+          example: '3'
+        - name: nodePath
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The path of the node. (The ID of the node if the engine is RE5)
+          example: 6c1293aa-418d-440a-a3b0-fb47c5d8090b
+        - name: functionPath
+          in: path
+          schema:
+            type: string
+          required: true
+          description: >-
+            The path of the function. (The ID of the function if the engine is
+            RE5)
+          example: d6f7914f-94d2-4a76-8874-f58399b83c8c
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FunctionLong'
+                example:
+                  FunctionPath: d6f7914f-94d2-4a76-8874-f58399b83c8c
+                  FunctionName: Sample_Func
+                  Properties:
+                    d405ae7e-04f0-41ad-bcf5-6a0c03041b97:
+                      PropertyPath: d405ae7e-04f0-41ad-bcf5-6a0c03041b97
+                      DisplayName: A
+                      Value: 5
+                    2d762d6c-7c25-4cfc-a22c-5d188a7463d5:
+                      PropertyPath: 2d762d6c-7c25-4cfc-a22c-5d188a7463d5
+                      DisplayName: B
+                      Value: 4
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+    post:
+      tags:
+        - Engine Control
+      summary: Call a Node's Function
+      description: |
+        Calls a specific function identified by its path on the specified node. The request body should contain the parameters for the function. This endpoint is useful for executing a specific function within a node.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FunctionTriggerRequest'
+              example:
+                Parameters:
+                  - PropertyPath: d405ae7e-04f0-41ad-bcf5-6a0c03041b97
+                    payload:
+                      value: 50
+                  - PropertyPath: 2d762d6c-7c25-4cfc-a22c-5d188a7463d5
+                    payload:
+                      value: 200
+      parameters:
+        - name: engineId
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: The ID of the engine.
+          example: '3'
+        - name: nodePath
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The path of the node. (The ID of the node if the engine is RE5)
+          example: 6c1293aa-418d-440a-a3b0-fb47c5d8090b
+        - name: functionPath
+          in: path
+          schema:
+            type: string
+          required: true
+          description: >-
+            The path of the function. (The ID of the function if the engine is
+            RE5)
+          example: d6f7914f-94d2-4a76-8874-f58399b83c8c
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerSuccessResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+  /api/rest/v1/playout/rundowns:
+    get:
+      tags:
+        - Rundown Control
+      summary: List Rundowns
+      description: |
+        Retrieves a list of all rundowns currently available in the RealityHub environment. Each rundown includes basic information such as its unique ID and name. This endpoint is useful for inspecting the available rundowns within the RealityHub environment.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PlayoutRundown'
+                example:
+                  - id: 1
+                    name: Evening Rundown
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+    post:
+      tags:
+        - Rundown Control
+      summary: Create a New Rundown
+      description: |
+        Creates a new rundown with the specified name. The request body should contain the name of the new rundown. This endpoint is useful for creating a new rundown within the RealityHub environment.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlayoutRundownCreateRenameRequestBody'
+              example:
+                name: My New Rundown
+      responses:
+        '201':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayoutRundown'
+                example:
+                  id: 2
+                  name: My New Rundown
+        '422':
+          description: Missing rundown name error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+                example:
+                  error: Rundown name is required.
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+  /api/rest/v1/playout/rundowns/{rundownId}:
+    get:
+      tags:
+        - Rundown Control
+      summary: Get a Single Rundown
+      description: |
+        Retrieves detailed information about a specific rundown identified by its ID. The response includes rundown metadata such as its unique ID and name. This endpoint is useful for inspecting the details of a specific rundown within the RealityHub environment.
+      parameters:
+        - name: rundownId
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: The ID of the rundown.
+          example: 5
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayoutRundown'
+                example:
+                  id: 1
+                  name: Evening Rundown
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+    patch:
+      tags:
+        - Rundown Control
+      summary: Rename a Rundown
+      description: |
+        Updates the name of a specific rundown identified by its ID. The request body should contain the new name for the rundown. This endpoint is useful for renaming a specific rundown within the RealityHub environment.
+      parameters:
+        - name: rundownId
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: The ID of the rundown.
+          example: 6
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlayoutRundownCreateRenameRequestBody'
+              example:
+                name: My Updated Rundown
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayoutRundown'
+                example:
+                  id: 2
+                  name: My Updated Rundown
+        '404':
+          description: Playout rundown not found.
+        '422':
+          description: Missing rundown name error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+                example:
+                  error: Rundown name is required.
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+    delete:
+      tags:
+        - Rundown Control
+      summary: Delete a Rundown
+      description: |
+        Deletes a specific rundown identified by its ID. This endpoint is useful for removing a specific rundown from the RealityHub environment.
+      parameters:
+        - name: rundownId
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: The ID of the rundown.
+          example: 6
+      responses:
+        '204':
+          description: Successful response (no content)
+        '404':
+          description: Playout rundown not found.
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+  /api/rest/v1/playout/rundowns/{rundownId}/items:
+    get:
+      tags:
+        - Rundown Control
+      summary: List Rundown Items
+      description: |
+        Retrieves a list of all items currently available in the specified rundown. Each item includes basic information such as its unique ID, name, and template. This endpoint is useful for inspecting the items of a specific rundown within the RealityHub environment.
+      parameters:
+        - name: rundownId
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: The ID of the rundown.
+          example: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PlayoutRundownItem'
+                example:
+                  - id: 1
+                    name: Name Band
+                    template: Name Band
+                    data:
+                      realitystring1: Default Value
+                    buttons:
+                      - id: 567ab4b8-1d0b-449f-ae28-685557d312cb
+                        label: Update
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+    post:
+      tags:
+        - Rundown Control
+      summary: Create a New Rundown Item
+      description: |
+        Creates a new rundown item with the specified name, template, order, and data. The request body should contain the details of the new rundown item. This endpoint is useful for creating a new rundown item within a specific rundown.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlayoutRundownItemCreateBody'
+              example:
+                name: My New Rundown Item
+                template: My Ticker
+                order: 2
+                data:
+                  pos: 1250
+      responses:
+        '201':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayoutRundownItemShort'
+                example:
+                  id: 2
+                  name: My New Rundown Item
+                  template: My Ticker
+                  data:
+                    pos: 1250
+        '404':
+          description: Playout rundown not found
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+  /api/rest/v1/playout/templates:
+    get:
+      tags:
+        - Rundown Control
+      summary: List All Templates
+      description: |
+        Retrieves a list of all templates currently available in the RealityHub environment. Each template includes basic information such as its unique ID and name. This endpoint is useful for inspecting the available templates within the RealityHub environment.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Template'
+                example:
+                  - id: 1
+                    name: CLOCK_BUG_0
+                  - id: 2
+                    name: Ticker_0
+                  - id: 3
+                    name: WeatherTransition_0
+                  - id: 4
+                    name: Transition_0
+                  - id: 5
+                    name: Headlines_0
+                  - id: 6
+                    name: NameBand_0
+                  - id: 7
+                    name: LowerThird_0
+                  - id: 8
+                    name: FullScreen02_0
+                  - id: 9
+                    name: FullScreen01_0
+                  - id: 10
+                    name: 2WINDOWS_0
+                  - id: 11
+                    name: OTS_0
+                  - id: 12
+                    name: Business_Transition_0
+                  - id: 13
+                    name: ArrayExample_0
+                  - id: 14
+                    name: Weather_0
+                  - id: 15
+                    name: Forex_0
+                  - id: 16
+                    name: Name Band
+                  - id: 17
+                    name: My Ticker
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+  /api/rest/v1/playout/rundowns/{rundownId}/items/{itemId}:
+    get:
+      tags:
+        - Rundown Control
+      summary: Get a Single Rundown Item
+      description: |
+        Retrieves detailed information about a specific rundown item identified by its ID. The response includes item metadata such as its unique ID, name, template, and data. This endpoint is useful for inspecting the details of a specific rundown item within the RealityHub environment.
+      parameters:
+        - name: rundownId
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: The ID of the rundown.
+          example: 1
+        - name: itemId
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: The ID of the item.
+          example: 2
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayoutRundownItem'
+                example:
+                  - id: 2
+                    name: My New Rundown Item
+                    template: My Ticker
+                    data:
+                      pos: 1250
+                    buttons:
+                      - id: bcca6de0-adaf-4265-9b37-4788b6b50eda
+                        label: Update
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+    patch:
+      tags:
+        - Rundown Control
+      summary: Update a Rundown Item
+      description: |
+        Updates the name, order, and data of a specific rundown item identified by its ID. The request body should contain the new details for the rundown item. This endpoint is useful for updating the details of a specific rundown item within a specific rundown.
+      parameters:
+        - name: rundownId
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: The ID of the rundown.
+          example: 1
+        - name: itemId
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: The ID of the item.
+          example: 2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlayoutRundownItemUpdateBody'
+              example:
+                name: Updated Rundown Item Name
+                order: 0
+                data:
+                  pos: 700
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayoutRundownItemShort'
+                example:
+                  id: 2
+                  name: Updated Rundown Item Name
+                  template: My Ticker
+                  data: {}
+        '404':
+          description: Playout rundown item not found.
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+    delete:
+      tags:
+        - Rundown Control
+      summary: Delete a Rundown Item
+      description: |
+        Deletes a specific rundown item identified by its ID. This endpoint is useful for removing a specific rundown item from a specific rundown.
+      parameters:
+        - name: rundownId
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: The ID of the rundown.
+          example: 1
+        - name: itemId
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: The ID of the item.
+          example: 2
+      responses:
+        '204':
+          description: Successful response (no content)
+        '404':
+          description: Playout rundown item not found.
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+  /api/rest/v1/playout/rundowns/{rundownId}/items/{itemId}/{buttonKey}:
+    post:
+      tags:
+        - Rundown Control
+      summary: Trigger a Rundown Item Button
+      description: |
+        Triggers a specific button associated with a specific rundown item identified by its ID. This endpoint is useful for executing a specific button within a specific rundown item.
+      parameters:
+        - name: rundownId
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: The ID of the rundown.
+          example: 1
+        - name: itemId
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: The ID of the item.
+          example: 3
+        - name: buttonKey
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The key of the form button.
+          example: c2f0df19-a147-4976-ba86-2e27156b2eab
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerSuccessResponse'
+        '404':
+          description: Newsroom rundown item not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+                example:
+                  error: Rundown item not found.
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+  /api/rest/v1/newsroom/rundowns:
+    get:
+      tags:
+        - Newsroom Control
+      summary: List Newsroom Rundowns
+      description: |
+        Retrieves a list of all newsroom rundowns currently available in the RealityHub environment. Each rundown includes basic information such as its unique ID, name, and status. This endpoint is useful for inspecting the available newsroom rundowns within the RealityHub environment.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NewsroomRundownShort'
+                example:
+                  - ncsID: OCTOPUS2
+                    roID: '69425946'
+                    roSlug: EVENING NEWS 6/4/2023 19:00
+                    status: MANUAL CTRL
+                    createdAt: '2023-06-02T18:47:21.659Z'
+                    updatedAt: '2023-06-02T18:47:21.659Z'
+                  - ncsID: OCTOPUS2
+                    roID: '63356849'
+                    roSlug: EVENING NEWS 3/2/2023 19:00
+                    status: MANUAL CTRL
+                    createdAt: '2023-03-01T11:52:51.083Z'
+                    updatedAt: '2023-03-01T11:52:51.083Z'
+                  - ncsID: OCTOPUS2
+                    roID: '63356832'
+                    roSlug: BUSINESS NEWS 2/21/2023 20:00
+                    status: MANUAL CTRL
+                    createdAt: '2023-02-21T12:04:49.306Z'
+                    updatedAt: '2023-02-21T12:04:49.306Z'
+                  - ncsID: OCTOPUS2
+                    roID: '63356823'
+                    roSlug: EVENING NEWS 2/17/2023 19:00
+                    status: MANUAL CTRL
+                    createdAt: '2023-02-17T12:33:07.112Z'
+                    updatedAt: '2023-02-17T12:33:07.112Z'
+                  - ncsID: OCTOPUS2
+                    roID: '63356821'
+                    roSlug: EVENING NEWS 2/16/2023 19:00
+                    status: MANUAL CTRL
+                    createdAt: '2023-02-15T09:37:43.704Z'
+                    updatedAt: '2023-02-15T09:37:43.704Z'
+                  - ncsID: OCTOPUS2
+                    roID: '63356819'
+                    roSlug: EVENING NEWS 2/15/2023 19:00
+                    status: MANUAL CTRL
+                    createdAt: '2023-02-14T14:19:58.913Z'
+                    updatedAt: '2023-02-14T14:19:58.913Z'
+                  - ncsID: 2016ENPS9VM001
+                    roID: >-
+                      2016ENPS9VM001;P_ENPSNEWS\W;38387985-142E-409A-AD00-A500F856B3C3
+                    roSlug: Phltest0910
+                    status: MANUAL CTRL
+                    createdAt: '2023-02-09T14:13:01.344Z'
+                    updatedAt: '2023-02-09T14:13:01.344Z'
+                  - ncsID: OCTOPUS2
+                    roID: '60424189'
+                    roSlug: EVENING NEWS 1/31/2023 19:00
+                    status: MANUAL CTRL
+                    createdAt: '2023-01-30T16:16:39.591Z'
+                    updatedAt: '2023-01-30T16:16:39.591Z'
+                  - ncsID: OCTOPUS2
+                    roID: '60424171'
+                    roSlug: Mehmet Test RO
+                    status: MANUAL CTRL
+                    createdAt: '2023-01-19T16:15:10.443Z'
+                    updatedAt: '2023-01-19T16:15:10.443Z'
+                  - ncsID: OCTOPUS2
+                    roID: '60424164'
+                    roSlug: EVENING NEWS 1/19/2023 19:00
+                    status: MANUAL CTRL
+                    createdAt: '2023-01-18T16:29:04.036Z'
+                    updatedAt: '2023-01-18T16:29:04.036Z'
+                  - ncsID: OCTOPUS2
+                    roID: '68843309'
+                    roSlug: BUSINESS NEWS 8/28/2022 20:00
+                    status: MANUAL CTRL
+                    createdAt: '2022-08-26T13:33:54.268Z'
+                    updatedAt: '2022-08-26T13:33:54.268Z'
+                  - ncsID: OCTOPUS2
+                    roID: '68843304'
+                    roSlug: EVENING NEWS 8/26/2022 19:00
+                    status: MANUAL CTRL
+                    createdAt: '2022-08-26T13:31:49.157Z'
+                    updatedAt: '2022-08-26T13:31:49.157Z'
+                  - ncsID: OCTOPUS2
+                    roID: '68843306'
+                    roSlug: EVENING NEWS 8/27/2022 19:00
+                    status: MANUAL CTRL
+                    createdAt: '2022-08-26T13:31:49.088Z'
+                    updatedAt: '2022-08-26T13:31:49.088Z'
+                  - ncsID: 2012R2ENPS8VM
+                    roID: >-
+                      2012R2ENPS8VM;P_SYSTEM\W;91A93EBA-08C8-40B0-83ABA5A255DD6C7D
+                    roSlug: rundown 2
+                    status: MANUAL CTRL
+                    createdAt: '2022-07-29T07:14:39.959Z'
+                    updatedAt: '2022-07-29T07:14:39.959Z'
+                  - ncsID: 2012R2ENPS8VM
+                    roID: >-
+                      2012R2ENPS8VM;P_SYSTEM\W;B2AA0459-16AD-4BEA-990F10EBFEE70DB3
+                    roSlug: ro-1
+                    status: MANUAL CTRL
+                    createdAt: '2022-07-29T06:52:44.384Z'
+                    updatedAt: '2022-07-29T06:52:44.384Z'
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+  /api/rest/v1/newsroom/rundowns/{ncsID}:
+    get:
+      tags:
+        - Newsroom Control
+      summary: List Newsroom Rundowns of a Single NCS Device
+      description: |
+        Retrieves a list of all newsroom rundowns currently available on the specified NCS device. Each rundown includes basic information such as its unique ID, name, and status. This endpoint is useful for inspecting the available newsroom rundowns on a specific NCS device.
+      parameters:
+        - name: ncsID
+          in: path
+          schema:
+            type: string
+          required: true
+          description: >-
+            The Device ID of the NCS (can be found in Configuration -> MOS
+            Module -> Configuration)
+          example: OCTOPUS2
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NewsroomRundownShort'
+                example:
+                  - ncsID: OCTOPUS2
+                    roID: '69425946'
+                    roSlug: EVENING NEWS 6/4/2023 19:00
+                    status: MANUAL CTRL
+                    createdAt: '2023-06-02T18:47:21.659Z'
+                    updatedAt: '2023-06-02T18:47:21.659Z'
+                  - ncsID: OCTOPUS2
+                    roID: '63356849'
+                    roSlug: EVENING NEWS 3/2/2023 19:00
+                    status: MANUAL CTRL
+                    createdAt: '2023-03-01T11:52:51.083Z'
+                    updatedAt: '2023-03-01T11:52:51.083Z'
+                  - ncsID: OCTOPUS2
+                    roID: '63356832'
+                    roSlug: BUSINESS NEWS 2/21/2023 20:00
+                    status: MANUAL CTRL
+                    createdAt: '2023-02-21T12:04:49.306Z'
+                    updatedAt: '2023-02-21T12:04:49.306Z'
+                  - ncsID: OCTOPUS2
+                    roID: '63356823'
+                    roSlug: EVENING NEWS 2/17/2023 19:00
+                    status: MANUAL CTRL
+                    createdAt: '2023-02-17T12:33:07.112Z'
+                    updatedAt: '2023-02-17T12:33:07.112Z'
+                  - ncsID: OCTOPUS2
+                    roID: '63356821'
+                    roSlug: EVENING NEWS 2/16/2023 19:00
+                    status: MANUAL CTRL
+                    createdAt: '2023-02-15T09:37:43.704Z'
+                    updatedAt: '2023-02-15T09:37:43.704Z'
+                  - ncsID: OCTOPUS2
+                    roID: '63356819'
+                    roSlug: EVENING NEWS 2/15/2023 19:00
+                    status: MANUAL CTRL
+                    createdAt: '2023-02-14T14:19:58.913Z'
+                    updatedAt: '2023-02-14T14:19:58.913Z'
+                  - ncsID: OCTOPUS2
+                    roID: '60424189'
+                    roSlug: EVENING NEWS 1/31/2023 19:00
+                    status: MANUAL CTRL
+                    createdAt: '2023-01-30T16:16:39.591Z'
+                    updatedAt: '2023-01-30T16:16:39.591Z'
+                  - ncsID: OCTOPUS2
+                    roID: '60424171'
+                    roSlug: Mehmet Test RO
+                    status: MANUAL CTRL
+                    createdAt: '2023-01-19T16:15:10.443Z'
+                    updatedAt: '2023-01-19T16:15:10.443Z'
+                  - ncsID: OCTOPUS2
+                    roID: '60424164'
+                    roSlug: EVENING NEWS 1/19/2023 19:00
+                    status: MANUAL CTRL
+                    createdAt: '2023-01-18T16:29:04.036Z'
+                    updatedAt: '2023-01-18T16:29:04.036Z'
+                  - ncsID: OCTOPUS2
+                    roID: '68843309'
+                    roSlug: BUSINESS NEWS 8/28/2022 20:00
+                    status: MANUAL CTRL
+                    createdAt: '2022-08-26T13:33:54.268Z'
+                    updatedAt: '2022-08-26T13:33:54.268Z'
+                  - ncsID: OCTOPUS2
+                    roID: '68843304'
+                    roSlug: EVENING NEWS 8/26/2022 19:00
+                    status: MANUAL CTRL
+                    createdAt: '2022-08-26T13:31:49.157Z'
+                    updatedAt: '2022-08-26T13:31:49.157Z'
+                  - ncsID: OCTOPUS2
+                    roID: '68843306'
+                    roSlug: EVENING NEWS 8/27/2022 19:00
+                    status: MANUAL CTRL
+                    createdAt: '2022-08-26T13:31:49.088Z'
+                    updatedAt: '2022-08-26T13:31:49.088Z'
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+  /api/rest/v1/newsroom/rundowns/{ncsID}/{roID}:
+    get:
+      tags:
+        - Newsroom Control
+      summary: Get a Single Rundown
+      description: |
+        Retrieves detailed information about a specific rundown identified by its ID on the specified NCS device. The response includes rundown metadata such as its unique ID, name, and status. This endpoint is useful for inspecting the details of a specific rundown on a specific NCS device.
+      parameters:
+        - name: ncsID
+          in: path
+          schema:
+            type: string
+          required: true
+          description: >-
+            The Device ID of the NCS (can be found in Configuration -> MOS
+            Module -> Configuration)
+          example: OCTOPUS2
+        - name: roID
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: Rundown ID (given by the NCS Device)
+          example: '69425946'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewsroomRundownLong'
+                example:
+                  ncsID: OCTOPUS2
+                  roID: '69425946'
+                  roSlug: EVENING NEWS 6/4/2023 19:00
+                  roChannel: OCTOPUS NEWS
+                  roEdStart: '2023-06-04T16:00:00.000Z'
+                  roEdDur: '00:06:03'
+                  roTrigger: TIMED
+                  macroIn: null
+                  macroOut: null
+                  mosExternalMetadata: >-
+                    [{"mosScope":"PLAYLIST","mosSchema":"octopus://PLAYLIST/EXTRA","mosPayload":"<mosPayload>\n\t<octext_payloadPlaylistExtra>\n\t\t<cols
+                    />\n\t</octext_payloadPlaylistExtra>\n</mosPayload>\n"}]
+                  readyToAir: true
+                  status: MANUAL CTRL
+                  updatedAt: '2023-06-02T18:47:21.659Z'
+                  createdAt: '2023-06-02T18:47:21.659Z'
+                  items:
+                    - storyID: '71755601'
+                      itemID: 2-1
+                      storySlug: 8 die in Japan snowstorm
+                      itemSlug: Newsroom REST - Test 1
+                      mosObject:
+                        objID: 048c0b52-0c5c-47a6-9f23-b375ea6d9feb
+                        objSlug: Newsroom REST - Test 1
+                        mosAbstract: Newsroom REST - Test 1
+                        objGroup: null
+                        objTB: '50'
+                        objRev: 1
+                        objDur: 0
+                        status: NEW
+                        objAir: READY
+                        objPaths: null
+                        mosExternalMetadata: null
+                        createdBy: mehmet
+                        created: '2023-06-02T18:47:00.612Z'
+                        changedBy: hub.newsroom
+                        changed: '2023-06-02T18:47:00.612Z'
+                        description: ''
+                        objType: VIDEO
+                        template: Newsroom REST - Test 1
+                        data:
+                          realityarray1:
+                            - Deneme 1000
+                            - Deneme 2000
+                            - Deneme 3000
+                            - Deneme 4000
+                          button1: ''
+                        buttons:
+                          - id: button1
+                            key: button1
+                            label: Button
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+  /api/rest/v1/newsroom/mosObjects/{objID}:
+    patch:
+      tags:
+        - Newsroom Control
+      summary: Update a MOS Object's Data
+      description: |
+        Updates the data of a specific MOS object identified by its ID. The request body should contain the new data for the MOS object. This endpoint is useful for updating the data of a specific MOS object.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewsroomMosObjectUpdateBody'
+              example:
+                description: Updated description
+                data:
+                  realityarray1:
+                    - Test 1
+                    - Test 2
+                    - Test 3
+      parameters:
+        - name: objID
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The ID of the MOS object to update.
+          example: 048c0b52-0c5c-47a6-9f23-b375ea6d9feb
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewsroomMosObjectUpdateResult'
+                example:
+                  objID: 048c0b52-0c5c-47a6-9f23-b375ea6d9feb
+                  objSlug: Newsroom REST - Test 1
+                  mosAbstract: Newsroom REST - Test 1
+                  objGroup: null
+                  objTB: '50'
+                  objRev: 1
+                  objDur: 0
+                  status: NEW
+                  objAir: READY
+                  objPaths: null
+                  mosExternalMetadata: null
+                  createdBy: mehmet
+                  created: '2023-06-02T18:47:00.612Z'
+                  changedBy: REST API
+                  changed: '2023-06-02T18:47:00.612Z'
+                  description: Updated description
+                  objType: VIDEO
+                  template: Newsroom REST - Test 1
+                  data:
+                    realityarray1:
+                      - Test 1
+                      - Test 2
+                      - Test 3
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+  /api/rest/v1/newsroom/rundowns/{ncsID}/{roID}/{storyID}/{itemID}/{buttonKey}:
+    post:
+      tags:
+        - Newsroom Control
+      summary: Trigger a MOS Object's Button (Newsroom Rundown Item Button)
+      description: |
+        Triggers a specific button associated with a specific MOS object identified by its ID. This endpoint is useful for executing a specific button within a specific MOS object.
+      parameters:
+        - name: ncsID
+          in: path
+          schema:
+            type: string
+          required: true
+          description: >-
+            The Device ID of the NCS (can be found in Configuration -> MOS
+            Module -> Configuration)
+          example: OCTOPUS2
+        - name: roID
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: Rundown ID
+          example: '69425946'
+        - name: storyID
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: Story ID
+          example: '71755601'
+        - name: itemID
+          in: path
+          schema:
+            type: string
+          required: true
+          description: Item ID
+          example: 2-1
+        - name: buttonKey
+          in: path
+          schema:
+            type: string
+          required: true
+          description: The key of the button to be triggered.
+          example: button1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerSuccessResponse'
+        '404':
+          description: Newsroom rundown item not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                required:
+                  - error
+                example:
+                  error: Rundown item not found.
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+  /api/rest/v1/graphs:
+    get:
+      description: |
+        Retrieves a list of all graphs currently available in the RealityHub environment. Each graph includes basic information such as its unique ID and name. This endpoint is useful for inspecting the available graphs within the RealityHub environment.
+      summary: Get Graphs
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Graph'
+              example:
+                - id: 1
+                  name: first graph
+                - id: 2
+                  name: secomd graph
+                - id: 3
+                  name: third graph
+      tags:
+        - Graph Control
+  /api/rest/v1/graphs/{graphId}:
+    get:
+      description: |
+        Retrieves detailed information about a specific graph identified by its ID. The response includes graph metadata such as its unique ID and name. This endpoint is useful for inspecting the details of a specific graph within the RealityHub environment.
+      summary: Get a Single Graph
+      parameters:
+        - name: graphId
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: The ID of the graph.
+          example: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GraphLong'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: Graph not found.
+      tags:
+        - Graph Control
+  /api/rest/v1/graphs/{graphId}/load:
+    post:
+      description: |
+        Loads a specific graph identified by its ID. This endpoint is useful for loading a specific graph within the RealityHub environment.
+      summary: Load a Graph
+      parameters:
+        - in: path
+          name: graphId
+          schema:
+            type: integer
+          required: true
+          description: The ID of the graph.
+          example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EngineHostId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerSuccessResponse'
+      tags:
+        - Graph Control
+  /api/rest/v1/rgraphs:
+    get:
+      summary: Get Rgraphs
+      description: |
+        Retrieves a list of all Rgraphs currently available in the RealityHub environment. Each Rgraph includes basic information such as its unique ID and name. This endpoint is useful for inspecting the available Rgraphs within the RealityHub environment.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Rgraph'
+              example:
+                - id: 1
+                  name: Live$5
+                - id: 2
+                  name: Live$3
+                - id: 3
+                  name: test graph
+                - id: 4
+                  name: second test
+      tags:
+        - Rgraph Control
+  /api/rest/v1/rgraphs/{rgraphId}:
+    get:
+      summary: Get a Single Rgraph
+      description: |
+        Retrieves detailed information about a specific Rgraph identified by its ID. The response includes Rgraph metadata such as its unique ID and name. This endpoint is useful for inspecting the details of a specific Rgraph within the RealityHub environment.
+      parameters:
+        - in: path
+          name: rgraphId
+          schema:
+            type: integer
+          required: true
+          description: The ID of the Rgraph
+          example: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RgraphLong'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: Rgraph not found.
+      tags:
+        - Rgraph Control
+  /api/rest/v1/rgraphs/{rgraphId}/load:
+    post:
+      summary: Load an Rgraph
+      description: |
+        Loads a specific Rgraph identified by its ID. This endpoint is useful for loading a specific Rgraph within the RealityHub environment.
+      parameters:
+        - in: path
+          name: rgraphId
+          schema:
+            type: integer
+          required: true
+          description: The ID of the rgraph.
+          example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EngineHostId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerSuccessResponse'
+      tags:
+        - Rgraph Control
+  /api/rest/v1/ustates:
+    get:
+      summary: Get Ustates
+      description: |
+        Retrieves a list of all Ustates currently available in the RealityHub environment. Each Ustate includes basic information such as its unique ID and name. This endpoint is useful for inspecting the available Ustates within the RealityHub environment.
+      responses:
+        '200':
+          description: Get Ustates
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ustate'
+              example:
+                - id: 2
+                  name: Live 3
+                - id: 3
+                  name: test-1
+                - id: 4
+                  name: test-2
+      tags:
+        - Ustate Control
+  /api/rest/v1/ustates/{ustateId}:
+    get:
+      summary: Get a Single Ustate
+      description: |
+        Retrieves detailed information about a specific Ustate identified by its ID. The response includes Ustate metadata such as its unique ID and name. This endpoint is useful for inspecting the details of a specific Ustate within the RealityHub environment.
+      parameters:
+        - in: path
+          name: ustateId
+          schema:
+            type: integer
+          required: true
+          description: The ID of the ustate.
+          example: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UstateLong'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: Ustate not found.
+      tags:
+        - Ustate Control
+  /api/rest/v1/ustates/{ustateId}/load:
+    post:
+      summary: Load a Ustate
+      description: |
+        Loads a specific Ustate identified by its ID. This endpoint is useful for loading a specific Ustate within the RealityHub environment.
+      parameters:
+        - in: path
+          name: ustateId
+          schema:
+            type: integer
+          required: true
+          description: The ID of the ustate.
+          example: 1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EngineHostId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerSuccessResponse'
+      tags:
+        - Ustate Control
+  /api/rest/v1/projects:
+    get:
+      summary: List all projects
+      description: |
+        Retrieves a list of all projects currently available in the RealityHub environment. Each project includes basic information such as its unique ID and name. This endpoint is useful for inspecting the available projects within the RealityHub environment.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Project'
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+      tags:
+        - Projects Control
+  /api/rest/v1/launcher/{launchId}/launch:
+    put:
+      description: |
+        Starts a specific launch configuration identified by its ID. This endpoint is useful for starting a specific launch configuration within the RealityHub environment.
+      summary: Start a Launch Configuration
+      parameters:
+        - in: path
+          name: launchId
+          schema:
+            type: integer
+          required: true
+          description: The ID of the launch configuration.
+          example: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: OK
+        '404':
+          description: Configuration not found
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: >-
+                  Launch cancelled: This launch configuration has no idle
+                  engines or suitable engine installation.
+        '422':
+          description: Invalid config id
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+      tags:
+        - Launcher Control
+  /api/rest/v1/launcher/{launchId}/stop:
+    put:
+      description: |
+        Stops a specific launch configuration identified by its ID. This endpoint is useful for stopping a specific launch configuration within the RealityHub environment.
+      parameters:
+        - in: path
+          name: launchId
+          schema:
+            type: integer
+          required: true
+          description: The ID of the launch configuration.
+          example: 1
+      responses:
+        '200':
+          description: OK
+        '422':
+          description: Invalid config id
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+      tags:
+        - Launcher Control
+  /api/rest/v1/launcher/{launchId}/retime:
+    put:
+      description: |
+        Retime a specific launch configuration identified by its ID. This endpoint is useful for retiming a specific launch configuration within the RealityHub environment.
+      parameters:
+        - in: path
+          name: launchId
+          schema:
+            type: integer
+          required: true
+          description: The ID of the launch configuration.
+          example: 1
+      responses:
+        '200':
+          description: OK
+        '422':
+          description: Invalid config id
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+      tags:
+        - Launcher Control
+  /api/rest/v1/launcher/{launchId}:
+    get:
+      description: |
+        Retrieves detailed information about a specific launch configuration identified by its ID. The response includes launch configuration metadata such as its unique ID and name. This endpoint is useful for inspecting the details of a specific launch configuration within the RealityHub environment.
+      parameters:
+        - in: path
+          name: launchId
+          schema:
+            type: integer
+          required: true
+          description: The ID of the launch configuration.
+          example: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LaunchConfig'
+        '422':
+          description: Invalid config id
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+      tags:
+        - Launcher Control
+  /api/rest/v1/launcher:
+    get:
+      description: |
+        Retrieves a list of all launch configurations currently available in the RealityHub environment. Each launch configuration includes basic information such as its unique ID and name. This endpoint is useful for inspecting the available launch configurations within the RealityHub environment.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LaunchConfig'
+        '422':
+          description: Invalid config id
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+      tags:
+        - Launcher Control
+  /api/rest/v1/launcher/create:
+    post:
+      description: |
+        Creates a new launch configuration with the specified name, engine host ID, and engine host name. The request body should contain the details of the new launch configuration. This endpoint is useful for creating a new launch configuration within the RealityHub environment.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LaunchConfigCreateRequestBody'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LaunchConfigCreateResponse'
+        '422':
+          description: Invalid parameters
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+      tags:
+        - Launcher Control
+  /api/rest/v1/launcher/{launchId}/renderer/{rendererId}/start:
+    put:
+      description: |
+        Starts a specific renderer identified by its ID on the specified launch configuration. This endpoint is useful for starting a specific renderer within a specific launch configuration.
+      parameters:
+        - in: path
+          name: launchId
+          schema:
+            type: integer
+          required: true
+          description: The ID of launch configuration
+        - in: path
+          name: rendererId
+          schema:
+            type: integer
+          required: true
+          description: The ID of renderer
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: OK
+        '404':
+          description: Not found
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Renderer not listed in selected configuration.
+        '422':
+          description: Invalid config id
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+      tags:
+        - Launcher Control
+  /api/rest/v1/launcher/{launchId}/renderer/{rendererId}/stop:
+    put:
+      description: |
+        Stops a specific renderer identified by its ID on the specified launch configuration. This endpoint is useful for stopping a specific renderer within a specific launch configuration.
+      parameters:
+        - in: path
+          name: launchId
+          schema:
+            type: integer
+          required: true
+          description: The ID of launch configuration
+        - in: path
+          name: rendererId
+          schema:
+            type: integer
+          required: true
+          description: The ID of renderer
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: OK
+        '404':
+          description: Not found
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Renderer not listed in selected configuration.
+        '422':
+          description: Invalid config id
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+      tags:
+        - Launcher Control
+  /api/rest/v1/launcher/{launchId}/renderer:
+    get:
+      description: |
+        Retrieves a list of all renderer IDs currently available on the specified launch configuration. Each renderer ID includes basic information such as its unique ID and name. This endpoint is useful for inspecting the available renderer IDs on a specific launch configuration.
+      parameters:
+        - in: path
+          name: launchId
+          schema:
+            type: integer
+          required: true
+          description: The ID of launch configuration
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: integer
+                example:
+                  - 10
+                  - 11
+        '422':
+          description: Invalid config id
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+      tags:
+        - Launcher Control
+  /api/rest/v1/launcher/{launchId}/renderer/{rendererId}:
+    get:
+      description: |
+        Retrieves detailed information about a specific renderer identified by its ID on the specified launch configuration. The response includes renderer metadata such as its unique ID and name. This endpoint is useful for inspecting the details of a specific renderer on a specific launch configuration.
+      parameters:
+        - in: path
+          name: launchId
+          schema:
+            type: integer
+          required: true
+          description: The ID of launch configuration
+        - in: path
+          name: rendererId
+          schema:
+            type: integer
+          required: true
+          description: The ID of renderer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RedenererDetails'
+        '404':
+          description: Renderer not found
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Renderer not found
+        '422':
+          description: Invalid parameter
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+      tags:
+        - Launcher Control
+  /api/rest/v1/launcher/{launchId}/renderer/create:
+    post:
+      description: |
+        Creates a new renderer with the specified name on the specified launch configuration. The request body should contain the details of the new renderer. This endpoint is useful for creating a new renderer within a specific launch configuration.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RedenererDetails'
+      parameters:
+        - in: path
+          name: launchId
+          schema:
+            type: integer
+          required: true
+          description: The ID of launch configuration
+          example: 5
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: integer
+                example: 12
+        '422':
+          description: Invalid parameter
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Failed to update renderer
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+      tags:
+        - Launcher Control
+  /api/rest/v1/lino/engines:
+    get:
+      tags:
+        - Lino Rundown Control
+      description: |
+        Retrieves a list of all Lino rundown engines currently available in the RealityHub environment. Each Lino rundown engine includes basic information such as its unique ID and name. This endpoint is useful for inspecting the available Lino rundown engines within the RealityHub environment.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LinoRundownEngine'
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+  /api/rest/v1/lino/engines/{engineId}:
+    get:
+      tags:
+        - Lino Rundown Control
+      description: |
+        Retrieves detailed information about a specific Lino rundown engine identified by its ID. The response includes Lino rundown engine metadata such as its unique ID and name. This endpoint is useful for inspecting the details of a specific Lino rundown engine within the RealityHub environment.
+      parameters:
+        - name: engineId
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: The ID of the engine
+          example: 2
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LinoRundownEngine'
+        '404':
+          description: Rundown Engine not found
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+  /api/rest/v1/lino/rundowns/{rundownId}:
+    get:
+      tags:
+        - Lino Rundown Control
+      description: |
+        Retrieves a list of all rundowns currently available in the specified Lino rundown engine. Each rundown includes basic information such as its unique ID and name. This endpoint is useful for inspecting the available rundowns within a specific Lino rundown engine.
+      parameters:
+        - in: path
+          name: rundownId
+          description: The ID of the rundown
+          required: true
+          schema:
+            type: integer
+          example: 4
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PlayoutRundown'
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+  /api/rest/v1/lino/templates:
+    get:
+      tags:
+        - Lino Rundown Control
+      description: |
+        Retrieves a list of all rundown templates currently available in the specified Lino rundown engine. Each rundown template includes basic information such as its unique ID and name. This endpoint is useful for inspecting the available rundown templates within a specific Lino rundown engine.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LinoTemplate'
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+  /api/rest/v1/lino/rundown/{engineId}/{rundownId}/items/:
+    get:
+      tags:
+        - Lino Rundown Control
+      description: |
+        Retrieves a list of all rundown items currently available in the specified Lino rundown. Each rundown item includes basic information such as its unique ID and name. This endpoint is useful for inspecting the available rundown items within a specific Lino rundown.
+      parameters:
+        - in: path
+          name: engineId
+          description: The ID of the engine.
+          required: true
+          schema:
+            type: integer
+          example: 4
+        - in: path
+          name: rundownId
+          description: The ID of the rundown.
+          required: true
+          schema:
+            type: integer
+          example: 2
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LinoRundownItem'
+        '404':
+          description: Not found
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: >-
+                  Cannot get rundown engine for rundownEngineId: 4, action:
+                  loadRundown, please check the server logs for details.
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+    post:
+      tags:
+        - Lino Rundown Control
+      description: |
+        Creates a new rundown item with the specified name, template, order, and data. The request body should contain the details of the new rundown item. This endpoint is useful for creating a new rundown item within a specific Lino rundown.
+      requestBody:
+        description: Item parameters
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LinoRundownItemCreateBody'
+      parameters:
+        - in: path
+          name: engineId
+          description: The ID of the engine.
+          required: true
+          schema:
+            type: integer
+          example: 4
+        - in: path
+          name: rundownId
+          description: The ID of the rundown.
+          required: true
+          schema:
+            type: integer
+          example: 2
+      responses:
+        '201':
+          description: OK
+          headers:
+            location:
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LinoRundownItem'
+        '404':
+          description: Not found
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: >-
+                  Cannot get rundown engine for rundownEngineId: 4, action:
+                  loadRundown, please check the server logs for details.
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+  /api/rest/v1/lino/rundown/{engineId}/{rundownId}/items/{itemId}:
+    patch:
+      tags:
+        - Lino Rundown Control
+      description: Update rundown item data
+      parameters:
+        - in: path
+          name: engineId
+          description: The ID of the engine.
+          required: true
+          schema:
+            type: integer
+          example: 4
+        - in: path
+          name: rundownId
+          description: The ID of the rundown.
+          required: true
+          schema:
+            type: integer
+          example: 2
+        - in: path
+          name: itemId
+          description: The ID of the item.
+          required: true
+          schema:
+            type: integer
+          example: 72
+      requestBody:
+        description: Item parameters
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LinoRundownItemCreateBody'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LinoRundownItem'
+    delete:
+      tags:
+        - Lino Rundown Control
+      description: |
+        Deletes a specific rundown item identified by its ID. This endpoint is useful for removing a specific rundown item from a specific Lino rundown.
+      parameters:
+        - in: path
+          name: engineId
+          description: The ID of the engine.
+          required: true
+          schema:
+            type: integer
+          example: 4
+        - in: path
+          name: rundownId
+          description: The ID of the rundown.
+          required: true
+          schema:
+            type: integer
+          example: 2
+        - in: path
+          name: itemId
+          description: The ID of the item.
+          required: true
+          schema:
+            type: integer
+          example: 72
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: OK
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+  /api/rest/v1/lino/rundown/{engineId}/{rundownId}:
+    delete:
+      tags:
+        - Lino Rundown Control
+      description: Delete rundown
+      parameters:
+        - in: path
+          name: engineId
+          description: The ID of the engine.
+          required: true
+          schema:
+            type: integer
+          example: 4
+        - in: path
+          name: rundownId
+          description: The ID of the rundown.
+          required: true
+          schema:
+            type: integer
+          example: 2
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: OK
+        '404':
+          description: Not found
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Rundown not found
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+    post:
+      tags:
+        - Lino Rundown Control
+      description: |
+        Creates a new rundown with the specified name. The request body should contain the name of the new rundown. This endpoint is useful for creating a new rundown within the RealityHub environment.
+      requestBody:
+        description: Item description
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LinoRundownItemCreateBody'
+      parameters:
+        - in: path
+          name: engineId
+          description: The ID of the engine
+          required: true
+          schema:
+            type: integer
+          example: 4
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LinoRundownItem'
+        '404':
+          description: Not found
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: >-
+                  Cannot get rundown engine for rundownEngineId: 4, action:
+                  loadRundown, please check the server logs for details.
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+  /api/rest/v1/lino/rundown/{engineId}/{rundownId}/load:
+    put:
+      tags:
+        - Lino Rundown Control
+      description: |
+        Loads a specific rundown identified by its ID. This endpoint is useful for loading a specific rundown within the RealityHub environment.
+      parameters:
+        - in: path
+          name: engineId
+          description: The ID of the engine
+          required: true
+          schema:
+            type: integer
+          example: 4
+        - in: path
+          name: rundownId
+          description: The ID of the rundown
+          required: true
+          schema:
+            type: integer
+          example: 2
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayoutRundown'
+        '404':
+          description: Not found
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Rundown not found
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+  /api/rest/v1/lino/rundown/{engineId}/{rundownId}/append/{newRundownId}:
+    put:
+      tags:
+        - Lino Rundown Control
+      description: |
+        Appends a specific rundown identified by its ID to a new rundown. This endpoint is useful for appending a specific rundown to a new rundown within the RealityHub environment.
+      parameters:
+        - in: path
+          name: engineId
+          description: The ID of the engine
+          required: true
+          schema:
+            type: integer
+          example: 4
+        - in: path
+          name: rundownId
+          description: The ID of the rundown
+          required: true
+          schema:
+            type: integer
+          example: 2
+        - in: path
+          name: newRundownId
+          description: The ID of the new rundown
+          required: true
+          schema:
+            type: integer
+          example: 3
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: OK
+        '404':
+          description: Not found
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Rundown not found
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+  /api/rest/v1/lino/rundown/{engineId}/{rundownId}/unload:
+    put:
+      tags:
+        - Lino Rundown Control
+      description: |
+        Unloads a specific rundown identified by its ID. This endpoint is useful for unloading a specific rundown within the RealityHub environment.
+      parameters:
+        - in: path
+          name: engineId
+          description: The ID of the engine
+          required: true
+          schema:
+            type: integer
+          example: 4
+        - in: path
+          name: rundownId
+          description: The ID of the rundown
+          required: true
+          schema:
+            type: integer
+          example: 2
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: OK
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+  /api/rest/v1/lino/rundown/{engineId}/play/{itemId}/{preview}:
+    put:
+      tags:
+        - Lino Rundown Control
+      description: |
+        Plays a specific rundown item identified by its ID. This endpoint is useful for playing a specific rundown item within the RealityHub environment.
+      parameters:
+        - in: path
+          name: engineId
+          description: The ID of the engine
+          required: true
+          schema:
+            type: integer
+          example: 4
+        - in: path
+          name: itemId
+          description: The ID of the item
+          required: true
+          schema:
+            type: integer
+          example: 88
+        - in: path
+          name: preview
+          description: 0 - program, 1 - preview
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: OK
+        '404':
+          description: Not found
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Not found
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+  /api/rest/v1/lino/rundown/{engineId}/playnext/{preview}:
+    put:
+      tags:
+        - Lino Rundown Control
+      description: |
+        Plays the next rundown item. This endpoint is useful for playing the next rundown item within the RealityHub environment.
+      parameters:
+        - in: path
+          name: engineId
+          description: The ID of the engine
+          required: true
+          schema:
+            type: integer
+          example: 4
+        - in: path
+          name: preview
+          description: 0 - program, 1 - preview
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: OK
+        '404':
+          description: Not found
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Not found
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+  /api/rest/v1/lino/rundown/{engineId}/continue/{itemId}/{preview}:
+    put:
+      tags:
+        - Lino Rundown Control
+      description: |
+        Continues playing a specific rundown item identified by its ID. This endpoint is useful for continuing to play a specific rundown item within the RealityHub environment.
+      parameters:
+        - in: path
+          name: engineId
+          description: The ID of the engine
+          required: true
+          schema:
+            type: integer
+          example: 4
+        - in: path
+          name: itemId
+          description: The ID of the item
+          required: true
+          schema:
+            type: integer
+          example: 88
+        - in: path
+          name: preview
+          description: 0 - program, 1 - preview
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: OK
+        '404':
+          description: Not found
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Not found
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+  /api/rest/v1/lino/rundown/{engineId}/out/{preview}:
+    put:
+      tags:
+        - Lino Rundown Control
+      description: Out rundown item
+      parameters:
+        - in: path
+          name: engineId
+          description: The ID of the engine
+          required: true
+          schema:
+            type: integer
+          example: 4
+        - in: path
+          name: preview
+          description: 0 - program, 1 - preview
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: OK
+        '404':
+          description: Not found
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Not found
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: '500: Internal server error'
+  /api/rest/v1/batch:
+    put:
+      tags:
+        - Batch Requests
+      description: |
+        Makes multiple requests in a single call. This endpoint is useful for making multiple requests within the RealityHub environment.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/BatchRequest'
+      responses:
+        '200':
+          description: array of responses
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BatchResponse'

@@ -1,18 +1,37 @@
 {
-  "name": "@zerodensity/realityhub-module-example",
+  "name": "@kararliadam/realityhub-restapi-module",
   "private": true,
   "version": "1.0.0",
-  "description": "Reality Hub Module Example",
+  "description": "A REST API module for RealityHub providing HTTP access to all RealityHub functions with Swagger UI documentation",
+  "main": "src/server/index.js",
   "scripts": {
     "start": "node src/server/index.js",
-    "dev": "nodemon src/server/index.js"
+    "dev": "nodemon src/server/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "echo \"Error: no linter configured\" && exit 1"
   },
-  "author": "Bulent Vural <bulent.vural@zerodensity.tv>",
-  "contributors": [
-    "Askin Saglam <askin.saglam@zerodensity.tv>",
-    "Mehmet Baker <mehmet.baker@zerodensity.tv>"
+  "keywords": [
+    "realityhub",
+    "rest-api",
+    "swagger",
+    "zerodensity",
+    "broadcast",
+    "graphics"
   ],
+  "author": "Ibrahim Erdogan <ibrahim.erdogan@zerodensity.io>",
   "license": "GPL-2.0-only",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kararliadam/realityhub-restapi-module.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kararliadam/realityhub-restapi-module/issues"
+  },
+  "homepage": "https://github.com/kararliadam/realityhub-restapi-module#readme",
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  },
   "dependencies": {
     "@zerodensity/realityhub-api": "^1.4.4",
     "express": "^4.17.1",
@@ -26,6 +45,10 @@
   "nodemonConfig": {
     "watch": [
       "src/server/**"
+    ],
+    "ignore": [
+      "node_modules/**",
+      "*.log"
     ]
   }
 }

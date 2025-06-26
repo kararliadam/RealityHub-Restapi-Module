@@ -1,97 +1,184 @@
-# RealityHub Module Example
+# RealityHub REST API Module
 
-You can write your own module and integrate it with RealityHub. This custom module has its own backend and frontend code. 
+A REST API module developed for RealityHub. This module provides HTTP REST API access to all RealityHub functions and offers interactive documentation through Swagger UI.
 
-The backend code can run on any machine; it doesn't have to be on the same machine as RealityHub. 
+## 🚀 Features
 
-For the frontend code, RealityHub will act as an HTTP proxy server between the browser and your HTTP server. RealityHub
-will try to load your `/index.js` file in `index.html`. Then your `index.js` can download all other resources via [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) or [XMLHttpRequest](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest)
-(or any other method) and append the resources to the DOM.
+- **REST API Access**: HTTP REST API access to all RealityHub functions
+- **Swagger UI**: Interactive API documentation and testing interface
+- **Modular Architecture**: Standalone module that can be integrated with RealityHub
+- **Real-time Communication**: Real-time communication with RealityHub
+- **Comprehensive API**: Engine Control, Rundown Control, Newsroom Control, Graph Control and more
 
-## Installation
+## 📋 Requirements
 
-To install project dependencies:
+- Node.js (v14 or higher)
+- RealityHub (running instance)
+- npm or yarn
 
+## 🛠️ Installation
+
+1. **Clone the project:**
+```bash
+git clone <repository-url>
+cd RealityHub-Restapi-Module
+```
+
+2. **Install dependencies:**
 ```bash
 npm install
 ```
 
-To run the server:
-
+3. **Set RealityHub port (optional):**
+   
+   RealityHub runs on port 80 by default. If you're using a different port:
 ```bash
-npm start
+export REALITY_HUB_PORT=3000  # Linux/macOS
+# or
+set REALITY_HUB_PORT=3000     # Windows
 ```
 
-Now Module Example will be listed under the Windows menu in RealityHub.
+## 🚀 Running
 
-![Module Example Menu](./docs/module-example-menu.png "Module Example Menu")
-
-To run the server in development mode (will automatically restart when there is a change in the backend code):
-
+### Development Mode
 ```bash
 npm run dev
 ```
 
-### Troubleshooting
-
-Module Example has to communicate with RealityHub. It assumes that RealityHub is running on the same machine (you can change the server code if that's not the case). By default, RealityHub will listen to port 80. However, if you've changed this port during RealityHub installation then you should also provide the same port information to Module Example. Otherise Module Example won't be able to connect to RealityHub. To set the port:
-
+### Production Mode
 ```bash
-set REALITY_HUB_PORT=3000
+npm start
 ```
 
-Then restart the Module server.
+When the module runs successfully:
+- Backend server will run on port 5000
+- "RealityHub REST API" option will appear in RealityHub menu
+- Swagger UI interface will open within RealityHub
 
-## Reality Properties
+## 📚 API Documentation
 
-RealityHub provides many form inputs as Web Components. You can use them in your designs.
+When the module is running, you can access the following API categories through the Swagger UI interface:
 
-### Creating a Reality Property
+### 🔧 Engine Control
+- Engine status control
+- Instance management
+- Host management
 
-```html
-<reality-property Type="Vector2D" id="vector2d"></reality-property>
+### 📺 Rundown Control
+- Rundown creation and editing
+- Timeline management
+- Playlist control
+
+### 📰 Newsroom Control
+- Newsroom integration
+- Content management
+
+### 🎮 Graph Control (Reality Engine 5)
+- Graph creation and editing
+- Node management
+- Graph content control
+
+### 🎮 Rgraph Control (Reality Engine 4.x)
+- Rgraph file management
+- XML content control
+
+### 🎮 Ustate Control (Unreal Engine)
+- Ustate file management
+- Unreal Engine integration
+
+### 📁 Projects Control
+- Project management
+- Map management
+
+### 🚀 Launcher Control
+- Launcher management
+- System control
+
+### 📋 Lino Rundown Control
+- Lino integration
+- Rundown synchronization
+
+### 🔄 Batch Requests
+- Batch operations
+- Multiple API calls
+
+## 🔧 Configuration
+
+### Port Settings
+- **Backend Server**: Port 5000 (default)
+- **RealityHub**: Port 80 (default) or `REALITY_HUB_PORT` environment variable
+
+### Environment Variables
+```bash
+REALITY_HUB_PORT=3000  # RealityHub port number
 ```
 
-![Vector 2D](./docs/vector-2d.png "Vector 2D")
+## 🏗️ Project Structure
 
-### Setting a value
-
-```js
-const realityProperty = document.getElementById('vector2d');
-realityProperty.value = {
-  X: 120,
-  Y: 150,
-};
+```
+RealityHub-Restapi-Module/
+├── src/
+│   ├── client/                 # Frontend files
+│   │   ├── index.html         # Main HTML file
+│   │   ├── index.js           # Client JavaScript
+│   │   ├── realityhub-api.yaml # Swagger API definition
+│   │   ├── styles.css         # CSS styles
+│   │   └── SwaggerDark.user.css # Swagger UI theme
+│   └── server/
+│       └── index.js           # Backend server
+├── assets/                    # Asset files
+├── docs/                      # Documentation
+├── package.json              # Project dependencies
+└── README.md                 # This file
 ```
 
-### Subscribing to changes
+## 🔌 RealityHub Integration
 
-If you want to listen to the changes as they are happening:
+This module integrates with RealityHub in the following way:
 
-```js
-// Will emit multiple events while the user is changing the value using a mouse.
-realityProperty.addEventListener('input', () => {
-  console.log(realityProperty.value);
-});
-```
+1. **Broker Client**: Communicates with RealityHub
+2. **HTTP Server**: Provides REST API endpoints
+3. **Swagger UI**: API documentation and testing interface
+4. **Static Files**: Serves client files
 
-If you want to be notified only once after the changes are happened:
+## 🐛 Troubleshooting
 
-```js
-realityProperty.addEventListener('change', () => {
-  console.log(realityProperty.value);
-});
-```
+### Module Not Appearing in RealityHub
+- Ensure RealityHub is running
+- Check port settings
+- Review server logs
 
-### List of Reality Property Types
+### API Connection Error
+- Check RealityHub port setting
+- Verify firewall settings
+- Test network connectivity
 
-* Boolean
-* Integer
-* Float
-* String
-* Color
-* Vector
-* Vector2D
-* Rotator
-* Size
-* Transform
+### Swagger UI Not Loading
+- Check browser console for error messages
+- Ensure static files are being served correctly
+
+## 📄 License
+
+This project is licensed under GPL-2.0-only. See `COPYING.md` file for details.
+
+## 👥 Contributing
+
+1. Fork the project
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📞 Support
+
+For questions:
+- GitHub Issues: [Repository Issues](https://github.com/kararliadam/realityhub-restapi-module/issues)
+- Email: ibrahim.erdogan@zerodensity.io
+
+## 🔄 Version History
+
+- **v1.0.0**: Initial release - Basic REST API module
+
+---
+
+**Note**: This module is not an official part of RealityHub and is not supported by Zero Density.

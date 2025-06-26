@@ -20,7 +20,7 @@ A REST API module developed for RealityHub. This module provides HTTP REST API a
 
 1. **Clone the project:**
 ```bash
-git clone <repository-url>
+git clone <https://github.com/kararliadam/RealityHub-Restapi-Module.git>
 cd RealityHub-Restapi-Module
 ```
 

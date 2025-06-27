@@ -124,7 +124,7 @@ RealityHub-Restapi-Module/
 │   │   ├── realityhub-api.yaml  # Swagger API definition
 │   │   └── assets/             # CSS and theme files
 │   │       ├── styles.css
-│   │       └── SwaggerDark.user.css
+│   │       └── swaggerdark.css
 │   └── server/
 │       └── index.js             # Backend server
 ├── package.json                 # Project dependencies

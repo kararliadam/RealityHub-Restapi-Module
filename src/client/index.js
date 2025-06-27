@@ -72,7 +72,7 @@ class RestApiModuleClient {
       // Add DarkTheme CSS dynamically too
       const darkCss = document.createElement('link');
       darkCss.rel = 'stylesheet';
-      darkCss.href = '/modules/zero_density.realityhub_restapi/assets/SwaggerDark.user.css';
+      darkCss.href = '/modules/zero_density.realityhub_restapi/assets/swaggerdark.css';
       document.head.appendChild(darkCss);
 
       // Load JS files sequentially

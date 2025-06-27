@@ -1,0 +1,44 @@
+/*
+ * Copyright (c) 2021 Zero Density Inc.
+ *
+ * This file is part of realityhub-module-example.
+ *
+ * realityhub-module-example is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2, as published by 
+ * the Free Software Foundation.
+ *
+ * realityhub-module-example is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with realityhub-module-example. If not, see <https://www.gnu.org/licenses/>.
+ */
+
+ div#swagger-ui {
+  height: 100vh;
+  overflow: auto;
+  box-sizing: border-box;
+  background: #353535;
+}
+div#swagger-ui select#servers {
+  color: #4a4a4a !important;
+}
+.swagger-ui .scheme-container {
+  background: #353535 !important;
+}
+.swagger-ui .scheme-container .scheme-name {
+  color: #e7e7e7 !important;
+}
+.swagger-ui .scheme-container .scheme-name:hover {
+  color: #e7e7e7 !important;
+}
+
+div#swagger-ui * {
+  color: #e7e7e7 !important;
+}
+.url, pre.version, h2.title span, .scheme-container, .topbar{
+  display: none !important;
+}
+  

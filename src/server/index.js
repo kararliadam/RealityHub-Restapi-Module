@@ -23,7 +23,6 @@ const REALITY_HUB_PORT = process.env.REALITY_HUB_PORT || 80;
 
 class RestApiModuleBackend {
 
-
   async initBroker() {
     this.brokerClient = await BrokerClient.initModule({
       menuTitle: 'RealityHub REST API',
@@ -40,7 +39,6 @@ class RestApiModuleBackend {
 
     this.brokerClient.once('disconnect', () => {
       this.brokerClient.destroy();
-      this.stopPolling();
       this.restart();
     });
   }
@@ -70,29 +68,8 @@ class RestApiModuleBackend {
       process.exit(1);
     }
 
-    this.startPolling();
-  }
-
-  startPolling() {
-    if (this.pollTimer) return;
    
-    this.api.emit('statuschange', { status: 'started' });
   }
-
-  stopPolling() {
-    if (!this.pollTimer) return;
-
-    clearTimeout(this.pollTimer);
-    this.pollTimer = null;
-    this.api.emit('statuschange', { status: 'stopped' });
-  }
-
-  getStatus() {
-    return {
-      status: !!this.pollTimer ? 'started' : 'stopped',
-    };
-  }
-
 
 }
 

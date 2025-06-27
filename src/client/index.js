@@ -57,15 +57,22 @@ class RestApiModuleClient {
     }
 
     async function loadSwaggerUI() {
+
+      const css = document.createElement('link');
+      css.rel = 'stylesheet';
+      css.href = '/modules/zero_density.realityhub_restapi/assets/styles.css';
+      document.head.appendChild(css);
+
       // Add CSS dynamically too
       const link = document.createElement('link');
       link.rel = 'stylesheet';
       link.href = '/modules/zero_density.realityhub_restapi/swagger-ui/swagger-ui.css';
       document.head.appendChild(link);
 
+      // Add DarkTheme CSS dynamically too
       const darkCss = document.createElement('link');
       darkCss.rel = 'stylesheet';
-      darkCss.href = '/modules/zero_density.realityhub_restapi/SwaggerDark.user.css';
+      darkCss.href = '/modules/zero_density.realityhub_restapi/assets/SwaggerDark.user.css';
       document.head.appendChild(darkCss);
 
       // Load JS files sequentially

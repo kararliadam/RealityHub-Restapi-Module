@@ -118,18 +118,19 @@ REALITY_HUB_PORT=3000  # RealityHub port number
 ```
 RealityHub-Restapi-Module/
 ├── src/
-│   ├── client/                 # Frontend files
-│   │   ├── index.html         # Main HTML file
-│   │   ├── index.js           # Client JavaScript
-│   │   ├── realityhub-api.yaml # Swagger API definition
-│   │   ├── styles.css         # CSS styles
-│   │   └── SwaggerDark.user.css # Swagger UI theme
+│   ├── client/                  # Frontend files
+│   │   ├── index.html           # Main HTML file
+│   │   ├── index.js             # Client JavaScript
+│   │   ├── realityhub-api.yaml  # Swagger API definition
+│   │   └── assets/             # CSS and theme files
+│   │       ├── styles.css
+│   │       └── SwaggerDark.user.css
 │   └── server/
-│       └── index.js           # Backend server
-├── assets/                    # Asset files
-├── docs/                      # Documentation
-├── package.json              # Project dependencies
-└── README.md                 # This file
+│       └── index.js             # Backend server
+├── package.json                 # Project dependencies
+├── package-lock.json            # Dependency lock file
+├── COPYING.md                   # License file
+└── README.md                    # This file
 ```
 
 ## 🔌 RealityHub Integration

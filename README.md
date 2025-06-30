@@ -181,5 +181,3 @@ For questions:
 - **v1.0.0**: Initial release - Basic REST API module
 
 ---
-
-**Note**: This module is not an official part of RealityHub and is not supported by Zero Density.
